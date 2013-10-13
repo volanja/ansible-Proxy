@@ -1,0 +1,2 @@
+https_proxy: "https://proxy.example.com:8080/"
+http_proxy: "http://proxy.example.com:8080/"

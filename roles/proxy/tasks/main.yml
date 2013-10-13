@@ -1,0 +1,46 @@
+# env
+- name: insert shell proxy(http)
+  lineinfile: dest=/etc/profile.d/proxy.sh state=present create=yes owner=root group=root mode=0644 regexp="{{ http_proxy }}"
+              insertafter=EOF line="export http_proxy={{ http_proxy }}"
+  ignore_errors: yes
+
+# git
+- name: set git proxy(http)
+  shell: "git config --global http.proxy {{ http_proxy }}"
+  ignore_errors: yes
+
+- name: set git proxy(https)
+  shell: "git config --global https.proxy {{ https_proxy }}"
+  ignore_errors: yes
+
+# gem
+- name: insert gem proxy(http)
+  lineinfile: "dest=~/.gemrc state=present create=yes regexp='{{ http_proxy }}' insertafter=EOF line='http_proxy: {{ http_proxy }}'"
+  ignore_errors: yes
+
+# wget
+- name: install wget by yum
+  yum: pkg={{ item }} state=installed
+  with_items:
+    - wget
+
+- name: insert wget proxy(http)
+  lineinfile: dest=/etc/wgetrc state=present regexp="{{ http_proxy }}"
+              insertafter="^#http_proxy" line="http_proxy={{ http_proxy }}"
+  ignore_errors: yes
+
+- name: insert wget proxy(https)
+  lineinfile: dest=/etc/wgetrc state=present regexp="{{ https_proxy }}"
+              insertafter="^#https_proxy" line="https_proxy={{ https_proxy }}"
+  ignore_errors: yes
+
+# curl
+- name: insert curl proxy(http)
+  lineinfile: dest=/etc/.curlrc state=present create=yes regexp="{{ http_proxy }}"
+              insertafter=EOF line="proxy={{ http_proxy }}"
+  ignore_errors: yes
+# yum
+- name: insert yum proxy(http)
+  lineinfile: dest=/etc/yum.conf state=present regexp="{{ http_proxy }}"
+              insertafter=EOF line="proxy={{ http_proxy }}"
+  ignore_errors: yes
