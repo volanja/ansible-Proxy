@@ -1,7 +1,7 @@
 ansible-Proxy
 =============
 
-ansibleを使って、CentOSにプロキシの設定をします。  
+ansibleを使って、CentOSにプロキシの設定をしま
 
 ansible...サーバ構成管理ソフトウェア  
 
